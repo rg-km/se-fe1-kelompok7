@@ -133,8 +133,8 @@ function checkPrime() {
 }
 
 function bgDraw() {
-    let snakeCanvas = document.getElementById("snakeBoard");
-    let ctx = snakeCanvas.getContext("2d");
+    let canvasSnake = document.getElementById("snakeBoard");
+    let ctx = canvasSnake.getContext("2d");
 }
 
 function drawLine(ctx, x1, y1, x2, y2) {
@@ -185,8 +185,8 @@ function levelUp() {
 
 function draw() {
     setInterval(function() {
-        let snakeCanvas = document.getElementById("snakeBoard");
-        let ctx = snakeCanvas.getContext("2d");
+        let canvasSnake = document.getElementById("snakeBoard");
+        let ctx = canvasSnake.getContext("2d");
 
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
         bgDraw();
