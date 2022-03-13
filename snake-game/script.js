@@ -20,12 +20,12 @@ function initPosition() {
     }
 }
 
-function initHeadAndBody() {
+function initHeadAndTail() {
     let head = initPosition();
-    let body = [{ x: head.x, y: head.y }];
+    let tail = [{ x: head.x, y: head.y }];
     return {
         head: head,
-        body: body,
+        tail: tail,
     }
 }
 
@@ -33,15 +33,15 @@ function initDirection() {
     return Math.floor(Math.random() * 4);
 }
 
-function initSnake(color) {
+function initSnake() {
     return {
-        ...initHeadAndBody(),
+        ...initHeadAndTail(),
         direction: initDirection(),
     }
 }
 
 
-function initSnakesnakeProperty() {
+function initSnakeProp() {
     return {
         life: 3,
         level: 1,
@@ -51,7 +51,7 @@ function initSnakesnakeProperty() {
 }
 
 let snake = initSnake();
-let snakeProp = initSnakesnakeProperty();
+let snakeProp = initSnakeProp();
 
 // Soal no 4: make apples array
 let apples = [{
@@ -62,7 +62,7 @@ let apples = [{
     }
 ]
 
-// extra life
+// add extra life
 let extraLife = {
     position: initPosition(),
     visible: true,
@@ -79,28 +79,28 @@ function drawHead(ctx, x, y) {
     ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
-function drawBody(ctx, x, y) {
+function drawTail(ctx, x, y) {
     let img = document.getElementById('tail');
     ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
 // Soal no 6: Pada fungsi drawScore, tambahkan score3Board:
 function drawScore(snake) {
-    let scoreCanvas;
+    let canvasScore;
     if (snake.color == snake.color) {
-        scoreCanvas = document.getElementById("score1Board");
+        canvasScore = document.getElementById("score1Board");
     }
-    let scoreCtx = scoreCanvas.getContext("2d");
+    let scoreCtx = canvasScore.getContext("2d");
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     scoreCtx.font = "30px Arial";
     scoreCtx.fillStyle = "snake";
-    scoreCtx.fillText(snakeProp.score, 10, scoreCanvas.scrollHeight / 2);
+    scoreCtx.fillText(snakeProp.score, 10, canvasScore.scrollHeight / 2);
 }
 
 // draw extra life
-function drawExtraLife(ctx) {
-    while (extraLife.position.y == 0 || wallCollision(extraLife.position.x, extraLife.position.y)) {
+function drawLifeExtra(ctx) {
+    while (extraLife.position.y == 0 || lineCollision(extraLife.position.x, extraLife.position.y)) {
         extraLife.position = initPosition();
     }
     if (extraLife.visible) {
@@ -135,25 +135,10 @@ function checkPrime() {
 function drawBG() {
     let snakeCanvas = document.getElementById("snakeBoard");
     let ctx = snakeCanvas.getContext("2d");
-
-    for (var j = 0; j < HEIGHT; j -= -1) {
-        for (var i = 0; i < WIDTH; i -= -1) {
-            if (i % 2 == 0) {
-                if (j % 2 == 0) {
-                    ctx.fillStyle = "#FFEA94";
-                } else { ctx.fillStyle = "#FFF9E3" }
-            } else if (i % 2 == 1) {
-                if (j % 2 == 1) {
-                    ctx.fillStyle = "#FFEA94";
-                } else { ctx.fillStyle = "#FFF9E3" }
-            }
-            ctx.fillRect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        }
-    }
 }
 
 function drawLine(ctx, x1, y1, x2, y2) {
-    ctx.strokeStyle = "brown";
+    ctx.strokeStyle = "green";
     ctx.lineWidth = 10;
     ctx.beginPath();
     ctx.moveTo(x1 * CELL_SIZE, y1 * CELL_SIZE);
@@ -161,7 +146,7 @@ function drawLine(ctx, x1, y1, x2, y2) {
     ctx.stroke();
 }
 
-let walls = []
+let lines = []
 
 // add level
 function levelUp() {
@@ -169,31 +154,31 @@ function levelUp() {
         alert("Level 1 Complete");
         snakeProp.level = 2;
         MOVE_INTERVAL = 100;
-        walls[0] = { x1: 15, y1: 5, x2: 15, y2: 25 };
+        lines[0] = { x1: 15, y1: 5, x2: 15, y2: 25 };
         snakeProp.counter++;
     } else if (snakeProp.score == 10 && snakeProp.counter == 1) {
         alert("Level 2 Complete");
         snakeProp.level = 3;
         MOVE_INTERVAL = 80;
-        walls[0] = { x1: 5, y1: 10, x2: 25, y2: 10 };
-        walls[1] = { x1: 5, y1: 20, x2: 25, y2: 20 };
+        lines[0] = { x1: 5, y1: 10, x2: 25, y2: 10 };
+        lines[1] = { x1: 5, y1: 20, x2: 25, y2: 20 };
         snakeProp.counter++;
     } else if (snakeProp.score == 15 && snakeProp.counter == 2) {
         alert("Level 3 Complete");
         snakeProp.level = 4;
         MOVE_INTERVAL = 65;
-        walls[0] = { x1: 5, y1: 5, x2: 25, y2: 5 };
-        walls[1] = { x1: 5, y1: 15, x2: 25, y2: 15 };
-        walls[2] = { x1: 5, y1: 25, x2: 25, y2: 25 };
+        lines[0] = { x1: 5, y1: 5, x2: 25, y2: 5 };
+        lines[1] = { x1: 5, y1: 15, x2: 25, y2: 15 };
+        lines[2] = { x1: 5, y1: 25, x2: 25, y2: 25 };
         snakeProp.counter++;
     } else if (snakeProp.score == 20 && snakeProp.counter == 3) {
         alert("Level 4 Complete");
         snakeProp.level = 5;
         MOVE_INTERVAL = 50;
-        walls[0] = { x1: 10, y1: 5, x2: 20, y2: 5 };
-        walls[1] = { x1: 5, y1: 10, x2: 5, y2: 20 };
-        walls[2] = { x1: 10, y1: 25, x2: 20, y2: 25 };
-        walls[3] = { x1: 25, y1: 10, x2: 25, y2: 20 };
+        lines[0] = { x1: 10, y1: 5, x2: 20, y2: 5 };
+        lines[1] = { x1: 5, y1: 10, x2: 5, y2: 20 };
+        lines[2] = { x1: 10, y1: 25, x2: 20, y2: 25 };
+        lines[3] = { x1: 25, y1: 10, x2: 25, y2: 20 };
         snakeProp.counter++;
     }
 }
@@ -206,13 +191,13 @@ function draw() {
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
         drawBG();
         drawHead(ctx, snake.head.x, snake.head.y);
-        for (let i = 1; i < snake.body.length; i++) {
-            drawBody(ctx, snake.body[i].x, snake.body[i].y);
+        for (let i = 1; i < snake.tail.length; i++) {
+            drawTail(ctx, snake.tail[i].x, snake.tail[i].y);
         }
 
         for (let i = 0; i < apples.length; i++) {
             let apple = apples[i];
-            while (apple.position.y == 0 || wallCollision(apple.position.x, apple.position.y)) {
+            while (apple.position.y == 0 || lineCollision(apple.position.x, apple.position.y)) {
                 apple.position = initPosition();
             }
             // Soal no 3: DrawImage apple dan gunakan image id:
@@ -228,13 +213,13 @@ function draw() {
 
         // display extra life
         if (checkPrime()) {
-            drawExtraLife(ctx);
+            drawLifeExtra(ctx);
         }
 
-        // display walls
+        // display lines
         if (snakeProp.level > 1) {
             for (i = 0; i < snakeProp.level - 1; i++) {
-                drawLine(ctx, walls[i].x1, walls[i].y1, walls[i].x2, walls[i].y2);
+                drawLine(ctx, lines[i].x1, lines[i].y1, lines[i].x2, lines[i].y2);
             }
         }
 
@@ -257,7 +242,6 @@ function teleport(snake) {
     }
 }
 
-// Soal no 4: Jadikan apples array
 function eat(snake, apples) {
     for (let i = 0; i < apples.length; i++) {
         let apple = apples[i];
@@ -266,7 +250,7 @@ function eat(snake, apples) {
             audio.play();
             apple.position = initPosition();
             snakeProp.score++;
-            snake.body.push({ x: snake.head.x, y: snake.head.y });
+            snake.tail.push({ x: snake.head.x, y: snake.head.y });
         }
     }
     levelUp();
@@ -279,18 +263,18 @@ function eatExtraLife() {
         extraLife.position = initPosition();
         snakeProp.life++;
         snakeProp.score++;
-        snake.body.push({ x: snake.head.x, y: snake.head.y });
+        snake.tail.push({ x: snake.head.x, y: snake.head.y });
         levelUp();
     }
 }
 
 // check wall collision
-function wallCollision(x, y) {
+function lineCollision(x, y) {
     let isCollide = false;
 
     if (snakeProp.level > 1) {
         for (let i = 0; i < snakeProp.level - 1; i++) {
-            if (x == walls[i].x1 && y >= walls[i].y1 && y < walls[i].y2 || y == walls[i].y1 && x >= walls[i].x1 && x < walls[i].x2) {
+            if (x == lines[i].x1 && y >= lines[i].y1 && y < lines[i].y2 || y == lines[i].y1 && x >= lines[i].x1 && x < lines[i].x2) {
                 isCollide = true;
             }
         }
@@ -300,20 +284,20 @@ function wallCollision(x, y) {
 
 
 
-// check body collision
+// check tail collision
 function selfCollision(snakes) {
     let isCollide = false;
 
     for (let i = 0; i < snakes.length; i++) {
         for (let j = 0; j < snakes.length; j++) {
-            for (let k = 1; k < snakes[j].body.length; k++) {
-                if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
+            for (let k = 1; k < snakes[j].tail.length; k++) {
+                if (snakes[i].head.x == snakes[j].tail[k].x && snakes[i].head.y == snakes[j].tail[k].y) {
                     isCollide = true;
                 }
             }
         }
     }
-    if (wallCollision(snake.head.x, snake.head.y)) {
+    if (lineCollision(snake.head.x, snake.head.y)) {
         isCollide = true;
     }
     if (isCollide) {
@@ -324,7 +308,7 @@ function selfCollision(snakes) {
         if (snakeProp.life == 0) {
             alert("Game Over");
             snake = initSnake();
-            snakeProp = initSnakesnakeProperty();
+            snakeProp = initSnakeProp();
             MOVE_INTERVAL = 120;
         }
     }
@@ -382,8 +366,8 @@ function move(snake) {
 }
 
 function moveBody(snake) {
-    snake.body.unshift({ x: snake.head.x, y: snake.head.y });
-    snake.body.pop();
+    snake.tail.unshift({ x: snake.head.x, y: snake.head.y });
+    snake.tail.pop();
 }
 
 function turn(snake, direction) {
