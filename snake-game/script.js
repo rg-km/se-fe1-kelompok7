@@ -1,17 +1,17 @@
 const CELL_SIZE = 20;
 // Soal no 1: Set canvas size menjadi 600
-const CANVAS_SIZE = 800;
+const CANVAS_SIZE = 500;
 const REDRAW_INTERVAL = 50;
 const WIDTH = CANVAS_SIZE / CELL_SIZE;
 const HEIGHT = CANVAS_SIZE / CELL_SIZE;
 const DIRECTION = {
-    LEFT: 0,
-    RIGHT: 1,
-    UP: 2,
-    DOWN: 3,
-}
-// Soal no 2: Pengaturan Speed (semakin kecil semakin cepat) ubah dari 150 ke 120
-const MOVE_INTERVAL = 120;
+        LEFT: 0,
+        RIGHT: 1,
+        UP: 2,
+        DOWN: 3,
+    }
+    // Soal no 2: Pengaturan Speed (semakin kecil semakin cepat) ubah dari 150 ke 120
+let MOVE_INTERVAL = 120;
 
 function initPosition() {
     return {
@@ -22,7 +22,7 @@ function initPosition() {
 
 function initHeadAndBody() {
     let head = initPosition();
-    let body = [{x: head.x, y: head.y}];
+    let body = [{ x: head.x, y: head.y }];
     return {
         head: head,
         body: body,
@@ -35,30 +35,54 @@ function initDirection() {
 
 function initSnake(color) {
     return {
-        color: color,
         ...initHeadAndBody(),
         direction: initDirection(),
-        score: 0,
     }
 }
-let snake1 = initSnake("purple");
-let snake2 = initSnake("blue");
-// Soal no 6: add snake3
-let snake3 = initSnake("black");
+
+
+function initSnakesnakeProperty() {
+    return {
+        life: 3,
+        level: 1,
+        score: 0,
+        counter: 0,
+    }
+}
+
+let snake = initSnake();
+let snakeProp = initSnakesnakeProperty();
 
 // Soal no 4: make apples array
 let apples = [{
-    color: "red",
+        position: initPosition(),
+    },
+    {
+        position: initPosition(),
+    }
+]
+
+// extra life
+let extraLife = {
     position: initPosition(),
-},
-{
-    color: "green",
-    position: initPosition(),
-}]
+    visible: true,
+    visibleCount: 0,
+}
 
 function drawCell(ctx, x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
+
+function drawHead(ctx, x, y) {
+    let img = document.getElementById('head');
+    ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
+function drawBody(ctx, x, y) {
+    let img = document.getElementById('body');
+    ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
 // Soal no 6: Pada fungsi drawScore, tambahkan score3Board:
@@ -66,10 +90,6 @@ function drawScore(snake) {
     let scoreCanvas;
     if (snake.color == snake1.color) {
         scoreCanvas = document.getElementById("score1Board");
-    } else if (snake.color == snake2.color) {
-        scoreCanvas = document.getElementById("score2Board");
-    } else {
-        scoreCanvas = document.getElementById("score3Board");
     }
     let scoreCtx = scoreCanvas.getContext("2d");
 
@@ -85,7 +105,7 @@ function draw() {
         let ctx = snakeCanvas.getContext("2d");
 
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-        
+
         drawCell(ctx, snake1.head.x, snake1.head.y, snake1.color);
         for (let i = 1; i < snake1.body.length; i++) {
             drawCell(ctx, snake1.body[i].x, snake1.body[i].y, snake1.color);
@@ -139,7 +159,7 @@ function eat(snake, apples) {
         if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
             apple.position = initPosition();
             snake.score++;
-            snake.body.push({x: snake.head.x, y: snake.head.y});
+            snake.body.push({ x: snake.head.x, y: snake.head.y });
         }
     }
 }
@@ -236,7 +256,7 @@ function turn(snake, direction) {
     }
 }
 
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", function(event) {
     if (event.key === "ArrowLeft") {
         turn(snake1, DIRECTION.LEFT);
     } else if (event.key === "ArrowRight") {
