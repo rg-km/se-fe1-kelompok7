@@ -63,7 +63,7 @@ let apples = [{
 ]
 
 // add extra life
-let extraLife = {
+let lifeExtra = {
     position: initPosition(),
     visible: true,
     visibleCount: 0,
@@ -100,21 +100,21 @@ function drawScore(snake) {
 
 // draw extra life
 function drawLifeExtra(ctx) {
-    while (extraLife.position.y == 0 || lineCollision(extraLife.position.x, extraLife.position.y)) {
-        extraLife.position = initPosition();
+    while (lifeExtra.position.y == 0 || lineCollision(lifeExtra.position.x, lifeExtra.position.y)) {
+        lifeExtra.position = initPosition();
     }
-    if (extraLife.visible) {
+    if (lifeExtra.visible) {
         var img = document.getElementById("life");
-        ctx.drawImage(img, extraLife.position.x * CELL_SIZE, extraLife.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        extraLife.visibleCount++;
-        if (extraLife.visibleCount == 10) {
-            extraLife.visible = false;
+        ctx.drawImage(img, lifeExtra.position.x * CELL_SIZE, lifeExtra.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        lifeExtra.visibleCount++;
+        if (lifeExtra.visibleCount == 10) {
+            lifeExtra.visible = false;
         }
     } else {
-        drawCell(ctx, extraLife.position.x, extraLife.position.y, "rgb(255,255,255,0)")
-        extraLife.visibleCount--;
-        if (extraLife.visibleCount == 0) {
-            extraLife.visible = true;
+        drawCell(ctx, lifeExtra.position.x, lifeExtra.position.y, "rgb(255,255,255,0)")
+        lifeExtra.visibleCount--;
+        if (lifeExtra.visibleCount == 0) {
+            lifeExtra.visible = true;
         }
     }
 }
@@ -259,8 +259,8 @@ function eat(snake, apples) {
 
 // eat extra life
 function eatLifeExtra() {
-    if (snake.head.x == extraLife.position.x && snake.head.y == extraLife.position.y) {
-        extraLife.position = initPosition();
+    if (snake.head.x == lifeExtra.position.x && snake.head.y == lifeExtra.position.y) {
+        lifeExtra.position = initPosition();
         snakeProp.life++;
         snakeProp.score++;
         snake.tail.push({ x: snake.head.x, y: snake.head.y });
@@ -268,7 +268,7 @@ function eatLifeExtra() {
     }
 }
 
-// check wall collision
+// check line collision
 function lineCollision(x, y) {
     let isCollide = false;
 
