@@ -98,7 +98,7 @@ function drawScore(snake) {
     scoreCtx.fillText(snakeProp.score, 10, canvasScore.scrollHeight / 2);
 }
 
-// draw extra life
+// draw life extra
 function drawLifeExtra(ctx) {
     while (lifeExtra.position.y == 0 || lineCollision(lifeExtra.position.x, lifeExtra.position.y)) {
         lifeExtra.position = initPosition();
@@ -257,7 +257,7 @@ function eat(snake, apples) {
     eatLifeExtra();
 }
 
-// eat extra life
+// eat life extra
 function eatLifeExtra() {
     if (snake.head.x == lifeExtra.position.x && snake.head.y == lifeExtra.position.y) {
         lifeExtra.position = initPosition();
