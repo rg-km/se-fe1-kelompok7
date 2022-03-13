@@ -132,7 +132,7 @@ function checkPrime() {
     }
 }
 
-function drawBG() {
+function bgDraw() {
     let snakeCanvas = document.getElementById("snakeBoard");
     let ctx = snakeCanvas.getContext("2d");
 }
@@ -189,7 +189,7 @@ function draw() {
         let ctx = snakeCanvas.getContext("2d");
 
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-        drawBG();
+        bgDraw();
         drawHead(ctx, snake.head.x, snake.head.y);
         for (let i = 1; i < snake.tail.length; i++) {
             drawTail(ctx, snake.tail[i].x, snake.tail[i].y);
