@@ -1,9 +1,9 @@
 const CELL_SIZE = 20;
 // Soal no 1: Set canvas size menjadi 600
-const CANVAS_SIZE = 500;
+const CANVAS_SIZE = 1300;
 const REDRAW_INTERVAL = 50;
 const WIDTH = CANVAS_SIZE / CELL_SIZE;
-const HEIGHT = CANVAS_SIZE / CELL_SIZE;
+const HEIGHT = (CANVAS_SIZE - 800) / CELL_SIZE;
 const DIRECTION = {
         LEFT: 0,
         RIGHT: 1,
@@ -97,6 +97,27 @@ function drawScore(snake) {
     scoreCtx.font = "30px Arial";
     scoreCtx.fillStyle = snake.color
     scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
+}
+
+// draw extra life
+function drawExtraLife(ctx) {
+    while (extraLife.position.y == 0 || wallCollision(extraLife.position.x, extraLife.position.y)) {
+        extraLife.position = initPosition();
+    }
+    if (extraLife.visible) {
+        var img = document.getElementById("life");
+        ctx.drawImage(img, extraLife.position.x * CELL_SIZE, extraLife.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        extraLife.visibleCount++;
+        if (extraLife.visibleCount == 10) {
+            extraLife.visible = false;
+        }
+    } else {
+        drawCell(ctx, extraLife.position.x, extraLife.position.y, "rgb(255,255,255,0)")
+        extraLife.visibleCount--;
+        if (extraLife.visibleCount == 0) {
+            extraLife.visible = true;
+        }
+    }
 }
 
 function draw() {
