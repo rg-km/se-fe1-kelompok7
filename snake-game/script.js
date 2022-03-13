@@ -254,11 +254,11 @@ function eat(snake, apples) {
         }
     }
     levelUp();
-    eatExtraLife();
+    eatLifeExtra();
 }
 
 // eat extra life
-function eatExtraLife() {
+function eatLifeExtra() {
     if (snake.head.x == extraLife.position.x && snake.head.y == extraLife.position.y) {
         extraLife.position = initPosition();
         snakeProp.life++;
