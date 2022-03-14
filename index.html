@@ -1,0 +1,29 @@
+<html>
+
+<head>
+</head>
+<style type="text/css" src="style.css"></style>
+<script type="text/javascript" src="script.js"></script>
+
+<body onload="draw();">
+    <h1>Snake Game FE1-Kelompok7</h1>
+    <!-- Image -->
+    <img id="apple" style="display: none;" width="20" height="20" src="assets/apple.png" alt="Apple">
+    <img id="head" style="display: none;" width="20" height="20" src="assets/snake/head.png" alt="Head">
+    <img id="tail" style="display: none;" width="20" height="20" src="assets/snake/tail.png" alt="Tail">
+    <img id="life" style="display: none;" width="20" height="20" src="assets/life.png" alt="Life">
+
+    <!-- Soal no 1: Ubah nilai width dan height menjadi 600 pada element canvas: -->
+    
+    <!--Board-->
+    <canvas id="snakeBoard" width="1300" height="500" style="border:1px solid #000000;"></canvas>
+    <!--Score-->
+    <br>
+    <canvas id="score1Board" width="100" height="100" style="border:1px solid #000000;"></canvas>
+    <p id="moveSpeed">Speed : 120 ms </p>
+    <!--<canvas id="score2Board" width="100" height="100" style="border:1px solid #000000;"></canvas>-->
+    <!-- Soal no 6: Tambahkan elemen canvas untuk menampilkan player3:  -->
+    <!--<canvas id="score3Board" width="100" height="100" style="border:1px solid #000000;"></canvas>-->
+</body>
+
+</html>
